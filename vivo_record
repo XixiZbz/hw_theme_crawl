@@ -1,0 +1,29 @@
+#精选页面:
+#  获取banner: get
+#      url: https://theme.vivo.com.cn/api/page/query.do?
+#      themetype : 99
+#      tt : 99
+#      category: 99
+#      showClock: false
+#  获取主题setId:
+#       url_1: https://theme.vivo.com.cn/api2.do?
+#       id: contentDestination
+#       获取各个主体: post
+#       url: https://theme.vivo.com.cn/api19.do?
+#       themetype: 1
+#       tt: 1
+
+
+&elapsedtime=93568663&sysromver=3.0&cfrom=404&viewid=-100
+elapsedtime=266444649&sysromver=3.0&viewid=-100
+
+&elapsedtime=266444649&&themetype=1&tt=1&id=22797&locale=zh_CN&elapsedtime=266444649
+id=2388&&themetype=1&elapsedtime=1000308839&tt=1
+
+
+
+themetype	1
+id	20619
+
+
+

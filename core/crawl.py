@@ -5,8 +5,12 @@
 # @Site    : 
 # @File    : crawl.py
 # @Software: PyCharm
-import requests
+import os
 
+import requests
+import yaml
+project_path = os.path.split(os.path.abspath(os.path.realpath(__file__)))[0] + "/../"
+from encry import encrypt_key
 s = requests.Session()
 
 class BaseCrawl(object):
@@ -108,8 +112,6 @@ class CrawlFeatured(BaseCrawl):
         data = {"sign":"061l10064111CN@29D383AAA1F3D18259707B190B3850B43B3429B805B91059E341DA58A0F2B96D","begin":1,"length":15,"ver":"1.7","versionCode":"100010331","deviceId":"869953023104979","userToken":"028500860003392476417e6d404e7cd8a8ffcf997f393e67439e90c29094b4d0b5d5b4e9cdd142e6cebf","deviceType":"2","appId":"3","cursor":"11","emuiVersion":"8.0","deviceModel":"FRD-AL00","buildNumber":"FRD-AL008.0.0.540(C00)","mixingListType":"1,11,12,2,41,5","sourceType":"bihottest","screen":"1920*1080"}
         result = s.post(url=self.waterfall_url, headers=self.headers, json=data)
         return result
-
-
 class CrawlThemne(BaseCrawl):
     def get_theme_column(self):
         self.headers["content-type"] = "application/x-www-form-urlencoded; charset=UTF-8"
@@ -138,8 +140,6 @@ class CrawlThemne(BaseCrawl):
             url = format_url.format(num,source_id)
             result = s.post(url=url, headers=self.headers, data=data)
             yield result
-
-
 class CrawlFont(BaseCrawl):
     def font_banner(self):
         url = "https://servicesupport1.hicloud.com/servicesupport/theme/v2/getAdvertisementContent.do?"
@@ -225,10 +225,114 @@ class CrawlFont(BaseCrawl):
             result = s.post(url=url, headers=self.headers, data=data)
             num +=1
             yield result
+
+class VivoCrawlBase:
+    def __init__(self):
+        self.common_param_str = ""
+        with open("{}param_vivo.yaml".format(project_path), 'r') as f:
+            res = yaml.load(f,Loader=yaml.FullLoader)
+        res_common = res['common']
+        self.common_param_str = '&'.join("{}={}".format(param,res_common[param]) for param in res_common)
+
+    def get_paramm(self,param_list):
+        for key in param_list:
+             self.common_param_str += "&{}={}".format(key,param_list[key])
+        return self.common_param_str
+    def get_response(self,request_method,param_str):
+        request_url = self.url +param_str
+        if request_method == "get":
+            res = requests.get(request_url)
+        elif request_method =='post':
+            res = requests.post(requests)
+        else:
+            res = False
+        return res
+    def get_param_p(self,encode_str):
+        param_p = encrypt_key(encode_str)
+        return param_p
+
+class VivoCrawlClassifyTheme(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api18.do?"
+class VivoCrawlClassifyThemeEach(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api8.do?"
+class VivoCrawlPage(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api/page/query.do?"
+class VivoCrawlResource(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api/resource/list.do?"
+
+class VivoCrawllist(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api/resource/list.do?"
+
+class VivoCrawlEach(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api11.do?"
+        with open("{}param_vivo.yaml".format(project_path), 'r') as f:
+            res = yaml.load(f,Loader=yaml.FullLoader)
+        res_common = res['common_each']
+        self.common_param_str = '&'.join("{}={}".format(param,res_common[param]) for param in res_common)
+class VivoCrawlGetTheme(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api2.do?"
+
+class VivoCrawlGetEachTheme(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api19.do?"
+
+class VivoCrawlThemeFuck(VivoCrawlBase):
+    def __init__(self):
+        super().__init__()
+        self.url = "https://theme.vivo.com.cn/api10.do?"
+
+
 if __name__ == '__main__':
-    c = CrawlFont()
-    result = c.get_font_album()
-    print(result.text)
-    a = c.get_album("820031255")
-    for x in a:
-        print(x.text)
+
+    v = VivoCrawlEach()
+    # page test
+    # request_method="get"
+    # unique_num = 99
+    # unique_param = {"themetype":"{}".format(unique_num),"tt":"{}".format(unique_num),"category":"{}".format(unique_num),"showClock":"false"}
+    # param_str = v.get_paramm(unique_param)
+    # res = v.get_response(request_method,param_str)
+    # print(res.text)
+
+    # source test
+    # request_method = "get"
+    # param_p_str = {"category":"4","componentType":"11","page":"102","pageIndex":"1","setId":"1992"}
+    # p = v.get_param_p(param_p_str.__str__())
+    # unique_param = {"showClock": "false","p":p}
+    # param_str = v.get_paramm(unique_param)
+    # res = v.get_response(request_method, param_str)
+    # print(res.text)
+
+    #list test
+    # request_method = "get"
+    # param_p_str = '{"category":"4","componentType":"11","page":"103","pageIndex":"1","setId":"2451"}'
+    # p = v.get_param_p(param_p_str)
+    # print(p)
+    # unique_param = {"showClock": "false","p":p}
+    # param_str = v.get_paramm(unique_param)
+    # res = v.get_response(request_method, param_str)
+    # print(res.text)
+
+
+    #each test
+    request_method = "get"
+    param_p_str = '{"o":"","resId":"100026873","tt":"1"}'
+    p = v.get_param_p(param_p_str)
+    unique_param = {"p": p,"themetype":"1","resId":"100026872"}
+    param_str = v.get_paramm(unique_param)
+    res = v.get_response(request_method, param_str)
+    print(res.text)

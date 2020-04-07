@@ -11,19 +11,19 @@ import os
 project_path = os.path.split(os.path.abspath(os.path.realpath(__file__)))[0] + "/../"
 
 class ToTxt(object):
-    def __init__(self):
+    def __init__(self,theme):
         self.date = arrow.now().format("YYYY-MM-DD")
-
+        self.theme = theme
     def open_or_new(self):
         exsit_dir = os.listdir(project_path+"/db")
-        if "{}.txt".format(self.date) in exsit_dir:
+        if "{}_{}.txt".format(self.date,self.theme) in exsit_dir:
             exsit = True
         else:
             exsit = False
         if exsit:
             return True
         else:
-            with open(project_path+"/db/{}.txt".format(self.date), "w+",encoding="GB18030") as f:
+            with open(project_path+"/db/{}_{}.txt".format(self.date,self.theme), "w+",encoding="GB18030") as f:
                 f.write(
                     "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\r".format("所属大类", "专栏名", "名称", "价格", "下载量",
                                                               "星级", "评论数", "收藏数", "点赞数",

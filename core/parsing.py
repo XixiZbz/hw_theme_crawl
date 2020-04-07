@@ -7,6 +7,38 @@
 # @Software: PyCharm
 import json
 
+class ParsingVivo:
+    def __init__(self,data):
+        self.data = json.loads(data)
+        self.info = self.data['detail']
+class ParsingVivoItem(ParsingVivo):
+    def get_info(self,belong,categories):
+        if categories == 5:
+            categories = "锁屏"
+        elif categories == 9:
+            categories = "壁纸"
+        elif categories == 4:
+            categories = "字体"
+        elif categories== 1:
+            categories = "主题"
+        name = self.info.get("name", "")
+        price = self.info.get("price", 0)
+        downloadcount = self.info.get("downloads", 0)
+        stars = self.info.get("score", 0)
+        commentNum = self.info.get("commentNum", 0)
+        collectCount = self.info.get("isCollection", 0)
+        praiseCount = self.info.get("praiseCount", 0)
+        thumpath = self.info.get("thumbPath","")
+        urlRoot = self.info.get("urlRoot","")
+        pic_info = urlRoot + thumpath
+        p_id = self.info.get("id", "")
+        author = self.info.get("author", "")
+        add_time = self.info.get("modifyTime", "")
+        version = self.info.get("version", "")
+        return {"name": name, "price": price, "downloadcount": downloadcount, "stars": stars, "commentNum": commentNum,
+               "collectCount": collectCount, "praiseCount": praiseCount, "pic_info": pic_info, "p_id": p_id,
+               "author": author, "add_time": add_time, "version": version,"belong":belong,"categories":categories}
+
 
 class Parsing:
     def __init__(self,text):
