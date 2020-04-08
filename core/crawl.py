@@ -240,12 +240,19 @@ class VivoCrawlBase:
         return self.common_param_str
     def get_response(self,request_method,param_str):
         request_url = self.url +param_str
-        if request_method == "get":
-            res = requests.get(request_url)
-        elif request_method =='post':
-            res = requests.post(requests)
+        for x in range(4):
+            try:
+                if request_method == "get":
+                    res = requests.get(request_url)
+                elif request_method =='post':
+                    res = requests.post(requests)
+                else:
+                    res = False
+                break
+            except:
+                continue
         else:
-            res = False
+            raise IOError("network fail")
         return res
     def get_param_p(self,encode_str):
         param_p = encrypt_key(encode_str)

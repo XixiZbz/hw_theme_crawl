@@ -6,6 +6,9 @@
 # @File    : parsing.py
 # @Software: PyCharm
 import json
+from core.format_txt import ToTxt
+
+to_txt = ToTxt("Vivo")
 
 class ParsingVivo:
     def __init__(self,data):
@@ -35,6 +38,10 @@ class ParsingVivoItem(ParsingVivo):
         author = self.info.get("author", "")
         add_time = self.info.get("modifyTime", "")
         version = self.info.get("version", "")
+        info = {"name": name, "price": price, "downloadcount": downloadcount, "stars": stars, "commentNum": commentNum,
+         "collectCount": collectCount, "praiseCount": praiseCount, "pic_info": pic_info, "p_id": p_id, "author": author,
+         "add_time": add_time, "version": version, "belong": belong, "categories": categories}
+        to_txt.format_content(info)
         return {"name": name, "price": price, "downloadcount": downloadcount, "stars": stars, "commentNum": commentNum,
                "collectCount": collectCount, "praiseCount": praiseCount, "pic_info": pic_info, "p_id": p_id,
                "author": author, "add_time": add_time, "version": version,"belong":belong,"categories":categories}

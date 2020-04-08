@@ -31,7 +31,7 @@ class ToTxt(object):
             return False
 
     def add_content(self, content):
-        with open(project_path+"/db/{}.txt".format(self.date), "a+",encoding="GB18030") as f:
+        with open(project_path+"/db/{}_{}.txt".format(self.date,self.theme), "a+",encoding="GB18030") as f:
             f.write(content + "\r")
 
     def format_content(self, info_dict):
