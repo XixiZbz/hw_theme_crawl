@@ -15,7 +15,7 @@ to_txt = ToTxt("huawei")
 to_txt.open_or_new()
 to_txt = ToTxt("Vivo")
 to_txt.open_or_new()
-
+request_method = "get"
 def type_in(categories, res):
     p = ParsingList(res.text)
     info = p.get_info()
@@ -106,7 +106,7 @@ def get_theme_data(each):
                         "cfrom": "404"}
         v = VivoCrawlGetTheme()
         param_str = v.get_paramm(unique_param)
-        res = v.get_response(request_method, param_str)
+        res = v.get_response("get", param_str)
         for x in json.loads(res.text)['data']['views']:
             title = x['title']
             print(title)
@@ -179,12 +179,7 @@ def get_recommond_data_fuck(each):
                 result = p.get_info()
                 print(result)
 def get_recommond_data(each,belong):
-    print(each)
     category = each["category"]
-    if category == 1:
-        category_name = "主题"
-    elif category == 4:
-        category_name = "字体"
     content_destination = each.get("contentDestination", "")
     if content_destination and category != -1:
         id = content_destination
@@ -341,7 +336,7 @@ def run_vivo():
     # 分类细项
     types = {"主题": "1", "字体": "4", "壁纸": "9", "锁屏": "5"}
     types = {"主题": "1", "字体": "4", "锁屏": "5"}
-    colum_num = {"主题": 3, "字体": 3, "锁屏": 2}
+    colum_num = {"主题": 4, "字体": 3, "锁屏": 2}
     for key in types:
         print(key)
         v = VivoCrawlPage()
@@ -388,6 +383,7 @@ def run_vivo():
                 p = ParsingVivoItem(res.text)
                 result = p.get_info(belong, category)
                 print(result)
+
     types = {"壁纸": "9"}
     colum_num = {"壁纸": 2}
     key = "壁纸"
@@ -466,6 +462,117 @@ def run_vivo():
         p = ParsingVivoItem(res.text)
         result = p.get_info(belong, category)
         print(result)
+
+
+
+    # 获取分类
+    types = {"主题": "1", "字体": "4", "壁纸": "9", "锁屏": "5"}
+    cfrom = {"主题":814,"字体":815,"锁屏":403,"壁纸":""}
+
+    for key in types:
+        print(key)
+        v = VivoCrawlPage()
+        type_num = types[key]
+        unique_num = type_num
+        unique_param = {"themetype": "{}".format(unique_num), "tt": "{}".format(unique_num),
+                        "category": "{}".format(unique_num), "showClock": "false"}
+        param_str = v.get_paramm(unique_param)
+        res = v.get_response(request_method, param_str)
+        each_classify = json.loads(res.text)['data']['compList']
+        v = VivoCrawlClassifyTheme()
+        unique_param = {"tt": "{}".format(unique_num), "themetype": unique_num}
+        param_str = v.get_paramm(unique_param)
+        res = v.get_response(request_method, param_str)
+        contentId = json.loads(res.text)["data"]["contentId"]
+        if key == "锁屏":
+            num = -1
+        else:
+            num = -2
+        for each in each_classify[num:]:
+            belong_pre = each['title']
+            print(belong_pre)
+            classify_list = each["list"]
+            for classify_data in classify_list:
+                cc = classify_data.get("title","")
+                if cc == "官方":
+                    continue
+                belong = belong_pre +"_"+cc
+                if belong_pre == "颜色":
+                    get_recommond_data(classify_data, belong)
+                else:
+                    print(classify_data['title'])
+                    content_d = classify_data["contentDestination"]
+                    unique_param = {"tt": "{}".format(unique_num), "themetype": unique_num, "cfrom": cfrom[key], "si":content_d,"startIndex":0}
+                    v = VivoCrawlThemeFuck()
+                    param_str = v.get_paramm(unique_param)
+                    res = v.get_response("get", param_str)
+                    res_ids = json.loads(res.text)['resList']
+                    for each in res_ids:
+                        res_id = each['resId']
+                        category = each['category']
+                        p_encode_str = '{{"o":"", "resId":"{}", "tt":"{}"}}'.format(res_id, category)
+                        v = VivoCrawlEach()
+                        p = v.get_param_p(p_encode_str)
+                        unique_param = {"p": p, "themetype": category, "resId": res_id}
+                        param_str = v.get_paramm(unique_param)
+                        res = v.get_response(request_method, param_str)
+                        p = ParsingVivoItem(res.text)
+                        result = p.get_info(belong, category)
+                        print(result)
 if __name__ == '__main__':
     # run()
     run_vivo()
+
+    # types = {"主题": "1", "字体": "4", "壁纸": "9", "锁屏": "5"}
+    # cfrom = {"主题":814,"字体":815,"锁屏":403,"壁纸":""}
+    #
+    # for key in types:
+    #     print(key)
+    #     v = VivoCrawlPage()
+    #     type_num = types[key]
+    #     unique_num = type_num
+    #     unique_param = {"themetype": "{}".format(unique_num), "tt": "{}".format(unique_num),
+    #                     "category": "{}".format(unique_num), "showClock": "false"}
+    #     param_str = v.get_paramm(unique_param)
+    #     res = v.get_response(request_method, param_str)
+    #     each_classify = json.loads(res.text)['data']['compList']
+    #     v = VivoCrawlClassifyTheme()
+    #     unique_param = {"tt": "{}".format(unique_num), "themetype": unique_num}
+    #     param_str = v.get_paramm(unique_param)
+    #     res = v.get_response(request_method, param_str)
+    #     contentId = json.loads(res.text)["data"]["contentId"]
+    #     if key == "锁屏":
+    #         num = -1
+    #     else:
+    #         num = -2
+    #     for each in each_classify[num:]:
+    #         belong_pre = each['title']
+    #         print(belong_pre)
+    #         classify_list = each["list"]
+    #         for classify_data in classify_list:
+    #             cc = classify_data.get("title","")
+    #             if cc == "官方":
+    #                 continue
+    #             belong = belong_pre +"_"+cc
+    #             if belong_pre == "颜色":
+    #                 get_recommond_data(classify_data, belong)
+    #             else:
+    #                 print(classify_data['title'])
+    #                 content_d = classify_data["contentDestination"]
+    #                 unique_param = {"tt": "{}".format(unique_num), "themetype": unique_num, "cfrom": cfrom[key], "si":content_d,"startIndex":0}
+    #                 v = VivoCrawlThemeFuck()
+    #                 param_str = v.get_paramm(unique_param)
+    #                 res = v.get_response("get", param_str)
+    #                 res_ids = json.loads(res.text)['resList']
+    #                 for each in res_ids:
+    #                     res_id = each['resId']
+    #                     category = each['category']
+    #                     p_encode_str = '{{"o":"", "resId":"{}", "tt":"{}"}}'.format(res_id, category)
+    #                     v = VivoCrawlEach()
+    #                     p = v.get_param_p(p_encode_str)
+    #                     unique_param = {"p": p, "themetype": category, "resId": res_id}
+    #                     param_str = v.get_paramm(unique_param)
+    #                     res = v.get_response(request_method, param_str)
+    #                     p = ParsingVivoItem(res.text)
+    #                     result = p.get_info(belong, category)
+    #                     print(result)
