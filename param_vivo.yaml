@@ -1,6 +1,6 @@
 common :
-  model: vivoMI4C
-  mktprdmodel: vivoMI4C
+  model: vivo
+  mktprdmodel: vivo
   promodel: unknown
   imei: 865687022415556
   appversion: 6.1.4.0
@@ -22,8 +22,8 @@ common :
   nightpearlResVersion : 3.0.0
 
 common_each:
-  model: vivoMI4C
-  mktprdmodel: vivoMI4C
+  model: vivo
+  mktprdmodel: vivo
   promodel: unknown
   imei: 865687022415556
   appversion: 6.1.4.0

@@ -51,7 +51,7 @@ class ToTxt(object):
         add_time = info_dict.get("add_time", "")
         version = info_dict.get("version","")
         content = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(categories, belong, name, price, downloadcount, stars,
-                                                            commentNum, collectCount, praiseCount, pic_info, p_id,author,add_time,version)
+                                                            commentNum, collectCount, praiseCount, pic_info, p_id,author,arrow.get(add_time//1000).date().__str__(),version)
         self.add_content(content)
 
 
