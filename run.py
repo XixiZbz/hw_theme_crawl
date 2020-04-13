@@ -336,7 +336,8 @@ def run_vivo():
     # 分类细项
     types = {"主题": "1", "字体": "4", "壁纸": "9", "锁屏": "5"}
     types = {"主题": "1", "字体": "4", "锁屏": "5"}
-    colum_num = {"主题": 4, "字体": 3, "锁屏": 2}
+    colum_num = {"主题": 3, "字体": 3, "锁屏": 2}
+    cfrom_num = {"主题": 814, "字体": 849, "锁屏": 857, "壁纸": ""}
     for key in types:
         print(key)
         v = VivoCrawlPage()
@@ -363,7 +364,7 @@ def run_vivo():
             v = VivoCrawlClassifyThemeEach()
             redirectId = x.get("redirectId", "")
             setId = contentId
-            cfrom = 840
+            cfrom = cfrom_num[key]
             pageSize = 30
             unique_param = {"tt": "{}".format(unique_num), "ct": redirectId, "setId": setId, "cfrom": cfrom,
                             "pageSize": pageSize, "startIndex": 0}
@@ -523,8 +524,9 @@ if __name__ == '__main__':
     # run()
     run_vivo()
 
-    # types = {"主题": "1", "字体": "4", "壁纸": "9", "锁屏": "5"}
-    # cfrom = {"主题":814,"字体":815,"锁屏":403,"壁纸":""}
+    # 获取分类
+    # types = { "字体": "4"}
+    # cfrom = {"主题": 814, "字体": 815, "锁屏": 403, "壁纸": ""}
     #
     # for key in types:
     #     print(key)
@@ -550,16 +552,17 @@ if __name__ == '__main__':
     #         print(belong_pre)
     #         classify_list = each["list"]
     #         for classify_data in classify_list:
-    #             cc = classify_data.get("title","")
+    #             cc = classify_data.get("title", "")
     #             if cc == "官方":
     #                 continue
-    #             belong = belong_pre +"_"+cc
+    #             belong = belong_pre + "_" + cc
     #             if belong_pre == "颜色":
     #                 get_recommond_data(classify_data, belong)
     #             else:
     #                 print(classify_data['title'])
     #                 content_d = classify_data["contentDestination"]
-    #                 unique_param = {"tt": "{}".format(unique_num), "themetype": unique_num, "cfrom": cfrom[key], "si":content_d,"startIndex":0}
+    #                 unique_param = {"tt": "{}".format(unique_num), "themetype": unique_num, "cfrom": cfrom[key],
+    #                                 "si": content_d, "startIndex": 0}
     #                 v = VivoCrawlThemeFuck()
     #                 param_str = v.get_paramm(unique_param)
     #                 res = v.get_response("get", param_str)

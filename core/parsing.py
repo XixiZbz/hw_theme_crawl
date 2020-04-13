@@ -41,6 +41,10 @@ class ParsingVivoItem(ParsingVivo):
         author = self.info.get("author", "")
         add_time = self.info.get("modifyTime", "")
         version = self.info.get("version", "")
+        if price == -1:
+            price = "免费"
+        # else:
+        #     price = int(price)//100
         info = {"name": name, "price": price, "downloadcount": downloadcount, "stars": stars, "commentNum": commentNum,
          "collectCount": collectCount, "praiseCount": praiseCount, "pic_info": pic_info, "p_id": p_id, "author": author,
          "add_time": add_time, "version": version, "belong": belong, "categories": categories}
