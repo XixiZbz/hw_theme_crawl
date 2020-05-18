@@ -201,7 +201,12 @@ def get_recommond_data(each, belong):
         v = VivoCrawlGetTheme()
         param_str = v.get_paramm(unique_param)
         res = v.get_response("get", param_str)
-        for x in json.loads(res.text)['data']['views']:
+        try:
+            d =json.loads(res.text)['data']['views']
+        except Exception as why:
+            print(why)
+            return
+        for x in d:
             title = x['title']
             content_id = x['contentId']
             belong = pre_belong + "_" + title
