@@ -49,6 +49,28 @@ class ToTxt(object):
         p_id = info_dict.get("p_id", "")
         author = info_dict.get("author", "")
         add_time = info_dict.get("add_time", "")
+        if not add_time:
+            add_time = "1970-01-01"
+        version = info_dict.get("version","")
+        content = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(categories, belong, name, price, downloadcount, stars,
+                                                            commentNum, collectCount, praiseCount, pic_info, p_id,author,arrow.get(add_time).date().__str__(),version)
+        self.add_content(content)
+
+    def format_content_vivo(self, info_dict):
+        print(info_dict)
+        categories = info_dict.get("categories", "")
+        belong = info_dict.get("belong", "")
+        name = info_dict.get("name", "")
+        price = info_dict.get("price", "")
+        downloadcount = info_dict.get("downloadcount", "")
+        stars = info_dict.get("stars", "")
+        commentNum = info_dict.get("commentNum", "")
+        collectCount = info_dict.get("collectCount", "")
+        praiseCount = info_dict.get("praiseCount", "")
+        pic_info = info_dict.get("pic_info", "")
+        p_id = info_dict.get("p_id", "")
+        author = info_dict.get("author", "")
+        add_time = info_dict.get("add_time", "")
         version = info_dict.get("version","")
         content = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(categories, belong, name, price, downloadcount, stars,
                                                             commentNum, collectCount, praiseCount, pic_info, p_id,author,arrow.get(add_time//1000).date().__str__(),version)

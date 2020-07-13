@@ -591,6 +591,8 @@ def run_vivo():
             res = v.get_response(request_method, param_str)
             print(res.text)
             res_ids = json.loads(res.text)['resList']
+            if not res_ids:
+                continue
             for each in res_ids:
                 res_id = each['resId']
                 category = each['category']

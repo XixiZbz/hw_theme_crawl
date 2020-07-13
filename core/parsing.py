@@ -48,7 +48,7 @@ class ParsingVivoItem(ParsingVivo):
         info = {"name": name, "price": price, "downloadcount": downloadcount, "stars": stars, "commentNum": commentNum,
          "collectCount": collectCount, "praiseCount": praiseCount, "pic_info": pic_info, "p_id": p_id, "author": author,
          "add_time": add_time, "version": version, "belong": belong, "categories": categories}
-        to_txt.format_content(info)
+        to_txt.format_content_vivo(info)
         return {"name": name, "price": price, "downloadcount": downloadcount, "stars": stars, "commentNum": commentNum,
                "collectCount": collectCount, "praiseCount": praiseCount, "pic_info": pic_info, "p_id": p_id,
                "author": author, "add_time": arrow.get(add_time//1000).date().__str__(), "version": version,"belong":belong,"categories":categories}
