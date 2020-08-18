@@ -317,7 +317,9 @@ def run_vivo():
     # 首页bannner
     for x in json.loads(res.text)['data']['compList'][0:1]:
         pre_belong = "精选banner"
-        data = x['list']
+        data = x.get('list', 0)
+        if not data:
+            continue
 
         for each in data:
             belong = pre_belong + "_" + each["title"]
@@ -326,7 +328,9 @@ def run_vivo():
     # 精选主题,字体banner
     for x in json.loads(res.text)['data']['compList'][1:2]:
         pre_belong = "精选"
-        data = x['list']
+        data = x.get('list',0)
+        if not data:
+            continue
         for each in data[0:-1]:
             pre_belong_sec = pre_belong + "_" + each["title"]
             p_id = each["contentDestination"]
@@ -400,7 +404,9 @@ def run_vivo():
     # 小编精选
     for x in json.loads(res.text)['data']['compList'][1:2]:
         pre_belong = "精选"
-        data = x['list']
+        data = x.get('list',0)
+        if not data:
+            continue
         for each in data[0:-1]:
             pre_belong_sec = pre_belong + "_" + each["title"]+ "_" + "小编精选"
             p_id = each["contentDestination"]
@@ -464,7 +470,9 @@ def run_vivo():
     # 精选 推荐主题
     for x in json.loads(res.text)['data']['compList'][1:2]:
         pre_belong = "精选"
-        data = x['list']
+        data = x.get('list', 0)
+        if not data:
+            continue
         for each in data[0:-1]:
             pre_belong_sec = pre_belong + "_" + each["title"]
             print("pre_belong_sec",pre_belong_sec)
