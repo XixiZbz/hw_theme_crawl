@@ -57,7 +57,7 @@ class ParsingVivoItem(ParsingVivo):
 class Parsing:
     def __init__(self,text):
         self.text = json.loads(text)
-        self.text_list = self.text["list"]
+        self.text_list = self.text.get("list","")
 
 class ParsingColumn(Parsing):
     def get_module_name(self):
