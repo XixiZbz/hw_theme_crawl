@@ -1,7 +1,4 @@
-# some kind of mobile app theme store crawl
+# 华为主题和vivo主题爬虫，直接运行可用
 
-1.hw theme store
-
-2.vivo theme store
-
-3.oppo theme store
+## 示例：
+  直接引用run.py 下的run()方法执行华为主题信息抓取，运行run_vivo()运行vivo主题爬虫
